@@ -9,7 +9,7 @@ export const bookService = {
     get,
     remove,
     save,
-    getEmptyCar,
+    getEmptyBook,
     getDefaultFilter,
 }
 
@@ -17,10 +17,10 @@ function query(filterBy = {}) {
     return storageService.query(BOOK_KEY)
         .then(books => {
             if (filterBy.title) {
-                const regExp = new RegExp(filterBy.vendor, 'i')
+                const regExp = new RegExp(filterBy.title, 'i')
                 books = books.filter(book => regExp.test(book.title))
             }
-            if (filterBy.price) {
+            else if (filterBy.price) {
                 books = books.filter(book => book.price >= filterBy.price)
             }
             return books
@@ -44,12 +44,12 @@ function save(car) {
     }
 }
 
-function getEmptyCar(title= '', price = '') {
+function getEmptyBook(title= '', price = '') {
     return { title, price }
 }
 
 function getDefaultFilter() {
-    return { vendor: '', minSpeed: '' }
+    return { title: '', price: '' }
 }
 
 function _createBooks() {
@@ -65,7 +65,7 @@ function _createBooks() {
 }
 
 function _createBook(title, price = 250) {
-    const book = getEmptyCar(title, price)
+    const book = getEmptyBook(title, price)
     book.id = makeId()
     book.listPrice={
         amount:book.price,

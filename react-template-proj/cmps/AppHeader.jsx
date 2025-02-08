@@ -8,7 +8,7 @@ export function AppHeader({onSetPage}){
         <nav className=" nav-bar flex">
             <a className="home" onClick={()=>onSetPage('home')} href="#">Home</a>
             <a className="aboutUs" onClick={()=>onSetPage('aboutUs')} href="#">AboutUs</a>
-            <a className="bookIndex"  onClick={()=>onSetPage('bookIndex')} href="#">BookIndex</a>
+            <a className="bookIndex"  onClick={()=>onSetPage('bookIndex')} href="#">Books</a>
         </nav>
     </header>
 
