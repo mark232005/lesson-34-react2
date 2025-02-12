@@ -1,6 +1,6 @@
 const { Link } = ReactRouterDOM
 
-export function BookPreview({ book}) {
+export function BookPreview({ book,onRemove}) {
     const { amount } = book.listPrice
     const { title } = book
     const { thumbnail } = book
@@ -11,7 +11,7 @@ export function BookPreview({ book}) {
             <p>{amount}$</p>
             <button> <Link to={`/book/${book.id}`}>Details</Link></button>
             <button>Edit</button>
-            <button>x</button>
+            <button onClick={()=>onRemove(book.id)}>x</button>
         </section>
     )
 }

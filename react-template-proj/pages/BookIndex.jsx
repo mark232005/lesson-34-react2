@@ -8,7 +8,6 @@ const { useEffect, useState } = React
 export function BookIndex() {
     const [books, setBook] = useState(null)
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
-
     useEffect(() => {
         loadBook()
     }, [filterBy])
@@ -22,11 +21,18 @@ export function BookIndex() {
             }
         )
     }
+    function onRemove(bookId){
+bookService.remove(bookId).then(
+    setBook( books=> books.filter(book=>book.id!==bookId)
+    )
+)
+
+    }
     if (!books) return 'Loading...'
     return (
         <section>
-                    <BookFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
-                    <BookList books={books} />
+            <BookFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+            <BookList books={books} onRemove={onRemove}/>
         </section>
     )
 }

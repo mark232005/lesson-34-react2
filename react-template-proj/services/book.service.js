@@ -27,13 +27,13 @@ function query(filterBy = {}) {
         })
 }
 
-function get(carId) {
-    return storageService.get(BOOK_KEY, carId)
+function get(bookId) {
+    return storageService.get(BOOK_KEY, bookId)
 }
 
-function remove(carId) {
+function remove(bookId) {
     // return Promise.reject('Oh No!')
-    return storageService.remove(BOOK_KEY, carId)
+    return storageService.remove(BOOK_KEY, bookId)
 }
 
 function save(car) {
