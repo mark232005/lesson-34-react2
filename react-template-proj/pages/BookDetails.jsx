@@ -1,14 +1,21 @@
 import { bookService } from "../services/book.service.js"
 
 const { useState, useEffect } = React
+const { useParams, Link } = ReactRouterDOM
 
 
-export function BookDetails({ bookId, onSelected }) {
+export function BookDetails() {
+    const params = useParams()
     const [currBook, setCurrBook] = useState(null)
     useEffect(() => {
         loadBook()
-    }, [bookId])
+    }, [params.bookId])
 
+    function loadBook() {
+
+        bookService.get(params.bookId)
+            .then(book => setCurrBook(book))
+    }
     function colorPrice() {
         if (currBook.listPrice.amount > 150) return 'red'
         if (currBook.listPrice.amount < 20) return 'green'
@@ -28,16 +35,12 @@ export function BookDetails({ bookId, onSelected }) {
         if (currBook.pageCount > 200) return '(Descent Reading)'
         if (currBook.pageCount < 100) return '(Light Reading)'
     }
-    function onSale(){
+    function onSale() {
         if (currBook.listPrice.isOnSale) return <button className='green'>Buy Now</button>
-        else return  <p className='red'>sold out</p>
-        
+        else return <p className='red'>sold out</p>
+
     }
-    function loadBook() {
-        bookService.get(bookId)
-            .then(book => setCurrBook(book))
-    }
-    if (!currBook) return null
+    if (!currBook) return 'Erore'
     return (
         <section className="book-details">
             <h2>Title: {currBook.title}</h2>
@@ -51,8 +54,7 @@ export function BookDetails({ bookId, onSelected }) {
                 <li >Price: <span className={colorPrice()} >{currBook.listPrice.amount}$</span></li>
                 <img src={currBook.thumbnail} />
                 {onSale()}
-                <button onClick={() => onSelected(null)}>back</button>
-
+                <button > <Link to={'/book'}>back</Link></button>
             </ul>
         </section>
     )

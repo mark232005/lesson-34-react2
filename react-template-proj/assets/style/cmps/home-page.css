@@ -1,0 +1,7 @@
+.home-page{
+    background-image: url('http://127.0.0.1:5500/assets/img/ch.png');
+    height: 100vh; 
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}

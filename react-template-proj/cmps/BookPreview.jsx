@@ -1,14 +1,16 @@
+const { Link } = ReactRouterDOM
 
-export function BookPreview({book,selectedBook}) {
-    const {amount}=book.listPrice
-    const {title}=book
-    const {thumbnail}=book
+export function BookPreview({ book}) {
+    const { amount } = book.listPrice
+    const { title } = book
+    const { thumbnail } = book
     return (
         <section className="book-preview">
             <h2>{title}</h2>
-            <img src={thumbnail}/>
+            <img src={thumbnail} />
             <p>{amount}$</p>
-<button onClick={()=>selectedBook(book.id)}>Details</button>
+            <button> <Link to={`/book/${book.id}`}>Details</Link></button>
+            <button>Edit</button>
             <button>x</button>
         </section>
     )

@@ -9,3 +9,7 @@
 .aboutUs{
     margin: 0 30px;
 }
+.app-header .nav-bar {
+    display: flex;
+    gap: 15px;
+}
