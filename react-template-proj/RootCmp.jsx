@@ -8,7 +8,7 @@ import { AppHeader } from "./cmps/AppHeader.jsx"
 import { BookIndex } from "./pages/BookIndex.jsx"
 import { Home } from "./pages/Home.jsx"
 import { BookDetails } from "./pages/BookDetails.jsx"
-const { useState } = React
+import { UserMsg } from "./cmps/UserMsg.jsx"
 export function App() {
     return (
         <Router>
@@ -24,6 +24,7 @@ export function App() {
                     </Routes>
 
                 </main>
+                <UserMsg/>
             </section>
         </Router>
     )
