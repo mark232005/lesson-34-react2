@@ -79,6 +79,7 @@ function _createBook(i) {
         pageCount: getRandomIntInclusive(20, 600),
         thumbnail: `http://coding-academy.org/books-photos/${i + 1}.jpg`,
         language: "en",
+        reviews: [],
         listPrice: {
             amount: getRandomIntInclusive(80, 500),
             currencyCode: "EUR",

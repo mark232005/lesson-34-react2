@@ -1,4 +1,7 @@
+import { AddReview } from "../cmps/AddReview.jsx"
+import { ReviewList } from "../cmps/ReviewList.jsx"
 import { bookService } from "../services/book.service.js"
+import { reviewService } from "../services/review.service.js"
 
 const { useState, useEffect } = React
 const { useParams, Link } = ReactRouterDOM
@@ -7,6 +10,8 @@ const { useParams, Link } = ReactRouterDOM
 export function BookDetails() {
     const params = useParams()
     const [currBook, setCurrBook] = useState(null)
+    const [isShowReviewModal, setisShowReviewModal] = useState(false)
+    const [isShowReviewList, setIsShowReviewList] = useState(true)
     useEffect(() => {
         loadBook()
     }, [params.bookId])
@@ -40,6 +45,29 @@ export function BookDetails() {
         else return <p className='red'>sold out</p>
 
     }
+
+    function onToggleReviewModal() {
+        setisShowReviewModal((prevIsReviewModal) => !prevIsReviewModal)
+    }
+    function onSaveReview(reviewToAdd) {
+        reviewService.saveReview(params.bookId, reviewToAdd).then(review =>
+            setCurrBook(prevBook => {
+                const reviews = [review, ...prevBook.reviews]
+                return { ...prevBook, reviews }
+            })
+        )
+        setIsShowReviewList(true)
+    }
+    function onRemoveReview(id) {
+        reviewService.removeReview(params.bookId, id)
+        .then(() => {
+            setCurrBook(prevBook => {
+                const filteredReviews = prevBook.reviews.filter(review => review.id !==id)
+                return { ...prevBook, reviews: filteredReviews }
+            })
+        })
+    }
+
     if (!currBook) return 'Erore'
     return (
         <section className="book-details">
@@ -55,6 +83,19 @@ export function BookDetails() {
                 <img src={currBook.thumbnail} />
                 {onSale()}
                 <button > <Link to={'/book'}>back</Link></button>
+                <button onClick={() => onToggleReviewModal()}>Add Review </button>
+                {isShowReviewModal && (
+                    <AddReview
+                        toggleReview={onToggleReviewModal}
+                        onSaveReview={onSaveReview} />
+                )}
+                {isShowReviewList &&
+                    <ReviewList
+                        reviews={currBook.reviews}
+                        onRemoveReview={onRemoveReview}
+                    />
+
+                }
             </ul>
         </section>
     )
