@@ -4,6 +4,8 @@ import { bookService } from "../services/book.service.js"
 import { eventBusService, showSuccessMsg } from "../services/event-bus.service.js"
 
 const { useEffect, useState } = React
+const { Link, NavLink } = ReactRouterDOM
+
 
 export function BookIndex() {
     const [books, setBook] = useState(null)
@@ -33,6 +35,7 @@ export function BookIndex() {
     return (
         <section>
             <BookFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+            <button><NavLink to="/book/bookEdit/bookId">Add Book</NavLink></button>
             <BookList books={books} onRemove={onRemove} />
         </section>
     )

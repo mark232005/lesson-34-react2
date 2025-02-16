@@ -2,6 +2,7 @@ import { loadFromStorage, makeId, saveToStorage, makeLorem, getRandomIntInclusiv
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
 const BOOK_KEY = 'bookDB'
+
 _createBooks()
 
 export const bookService = {
@@ -11,6 +12,8 @@ export const bookService = {
     save,
     getEmptyBook,
     getDefaultFilter,
+    getBookFromGoogle,
+    addGoogleBook
 }
 
 function query(filterBy = {}) {
@@ -36,11 +39,11 @@ function remove(bookId) {
     return storageService.remove(BOOK_KEY, bookId)
 }
 
-function save(car) {
-    if (car.id) {
-        return storageService.put(BOOK_KEY, car)
+function save(book) {
+    if (book.id) {
+        return storageService.put(BOOK_KEY, book)
     } else {
-        return storageService.post(BOOK_KEY, car)
+        return storageService.post(BOOK_KEY, book)
     }
 }
 
@@ -57,12 +60,12 @@ function getDefaultFilter() {
 function _createBooks() {
     let booksF = loadFromStorage(BOOK_KEY)
     if (!booksF || !booksF.length) {
-        
+
         const books = []
         for (let i = 0; i < 20; i++) {
             const book = _createBook(i)
             books.push(book)
-            
+
         }
         saveToStorage(BOOK_KEY, books)
     }
@@ -89,3 +92,41 @@ function _createBook(i) {
     return book
 }
 
+function addGoogleBook(book) {
+    return storageService.post(BOOK_KEY, book)
+}
+function getBookFromGoogle(bookName) {
+    if(bookName==='') return Promise.resolve()
+    const url = `https://www.googleapis.com/books/v1/volumes?printType=books&q=${bookName}`
+    return axios.get(url).then(res => {
+        const data = res.data.items
+        const books = _formatGoogleBooks(data)
+        return books
+    }
+    )
+
+}
+
+function _formatGoogleBooks(googleBooks) {
+    return googleBooks.map(googleBook => {
+        const { volumeInfo } = googleBook
+        const book = {
+            id: googleBook.id,
+            title: volumeInfo.title,
+            subtitle: volumeInfo.subtitle,
+            authors: volumeInfo.authors,
+            publishedDate: volumeInfo.publishedDate,
+            description: volumeInfo.description,
+            pageCount: volumeInfo.pageCount,
+            thumbnail: volumeInfo.imageLinks.thumbnail,
+            language: volumeInfo.language,
+            reviews: [],
+            listPrice: {
+                amount: getRandomIntInclusive(80, 500),
+                currencyCode: "EUR",
+                isOnSale: Math.random() > 0.7
+            }
+        }
+        return book
+    })
+}
