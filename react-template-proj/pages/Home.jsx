@@ -1,5 +1,3 @@
-// import {Img} from '../assets/img/Bookseller.png'
-import chImage from '../assets/img/ch.png'
 
 export function Home() {
 

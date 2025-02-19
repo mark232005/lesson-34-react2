@@ -13,6 +13,7 @@ export function AddReview({ toggleReview, onSaveReview }) {
     }
     function handleChange({ target }) {
         const { value, name: field ,type} = target
+        console.log(type);
         if(type==='range'){
 const star='⭐'.repeat(+value)
             setToAddReview(prevReview => ({ ...prevReview, star: star}))

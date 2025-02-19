@@ -41,6 +41,7 @@ function remove(bookId) {
 
 function save(book) {
     if (book.id) {
+        console.log('in service saved');
         return storageService.put(BOOK_KEY, book)
     } else {
         return storageService.post(BOOK_KEY, book)

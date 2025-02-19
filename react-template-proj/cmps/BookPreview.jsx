@@ -10,7 +10,7 @@ export function BookPreview({ book,onRemove}) {
             <img src={thumbnail} />
             <p>{amount}$</p>
             <button> <Link to={`/book/${book.id}`}>Details</Link></button>
-            <button><Link to={`/book/bookEdit/${book}`}>Edit </Link></button>
+            <button><Link to={`/book/bookEdit/${book.id}`}>Edit </Link></button>
             <button onClick={()=>onRemove(book.id)}>x</button>
         </section>
     )
